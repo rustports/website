@@ -1,0 +1,13 @@
+# Cloudflare static-assets redirects. Format: <source> <destination> <status>.
+# First-match wins, so more-specific rules go above splats.
+
+# Convenience: /<port> → that port's GitHub repo.
+/pandoc    https://github.com/rustports/pandoc    302
+/biber     https://github.com/rustports/biber     302
+/quickjs   https://github.com/rustports/quickjs   302
+/ecj       https://github.com/rustports/ecj       302
+/llvm      https://github.com/rustports/llvm      302
+
+# /docs and /methodology → the methodology repo.
+/docs            https://github.com/rustports/docs                          302
+/methodology     https://github.com/rustports/docs/blob/main/methodology.md 302

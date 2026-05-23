@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rustports — faithful Rust ports of mature upstream projects</title>
+    <meta name="description" content="Use mature tools — pandoc, biber, quickjs, clang, ecj — as native Rust crates. Faithful ports that mirror the upstream structure line by line.">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1><img src="rustports-logo.svg" alt="rustports" class="logo"></h1>
+        <p class="tagline">Use mature tools as native Rust crates.</p>
+        <nav class="topnav">
+          <a href="packages.html">Packages</a>
+          <a href="why.html">What's a faithful port?</a>
+          <a href="https://github.com/rustports/docs">Methodology</a>
+          <a href="https://github.com/rustports">GitHub</a>
+        </nav>
+      </header>
+
+      <section class="features">
+        <div class="feature-card">
+          <h3>Native Rust integration</h3>
+          <p>
+            <code>use pandoc;</code> straight from your <code>Cargo.toml</code> &mdash; no <code>Command::new("pandoc")</code>, no FFI bindgen, no shared libraries to ship. Every port is published as both a library crate and a CLI binary.
+          </p>
+        </div>
+        <div class="feature-card">
+          <h3>Faithful, not a rewrite</h3>
+          <p>
+            Each port mirrors the upstream's structure: same function names, same branch order, same error messages. The Rust code diffs line by line against the original &mdash; behavior matches because structure matches.
+          </p>
+        </div>
+        <div class="feature-card">
+          <h3>Tracks the upstream</h3>
+          <p>
+            Each port pins a specific upstream tag (<code>0.1.0+upstream.3.9.0.2</code>). Future upstream changes merge at translation cost, not redesign cost. The port doesn't become an abandoned fork.
+          </p>
+        </div>
+        <div class="feature-card">
+          <h3>Performance and memory footprint</h3>
+          <p>
+            Native code, no interpreter or VM, no garbage collector. <strong>biber-rs</strong> already runs faster than upstream Perl biber on the full fixture corpus. Matching a tightly-tuned C engine like <strong>quickjs</strong> is the harder target and an open challenge. Published benchmarks are coming.
+          </p>
+        </div>
+      </section>
+
+      <section style="margin-top: 5rem;">
+        <h2 style="text-align: center; margin-bottom: 1rem;">Use it from your crate</h2>
+        <p style="text-align: center; color: var(--tagline); margin-bottom: 2rem;">
+          The crates aren't on crates.io yet; depend on them by git URL for now.
+        </p>
+
+        <p>Add the ports you want to your <code>Cargo.toml</code>:</p>
+        <div class="install-box-wrapper" style="margin-top: 1rem;">
+          <button class="copy-btn" aria-label="Copy code" onclick="copyCode(this)" title="Copy to clipboard">
+            <svg class="copy-icon" viewBox="0 0 24 24">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <svg class="check-icon" viewBox="0 0 24 24" style="display: none; stroke: var(--check);">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </button>
+          <div class="install-box"><code><span class="comment"># Cargo.toml</span>
+<span class="kw">[dependencies]</span>
+biber   = { git = <span class="cmd">"https://github.com/rustports/biber"</span>,   package = <span class="cmd">"rustports-biber"</span>   }
+quickjs = { git = <span class="cmd">"https://github.com/rustports/quickjs"</span>, package = <span class="cmd">"rustports-quickjs"</span> }
+pandoc  = { git = <span class="cmd">"https://github.com/rustports/pandoc"</span>,  package = <span class="cmd">"rustpandoc"</span>        }</code></div>
+        </div>
+
+        <p>Then call into them like any other crate:</p>
+        <div class="install-box-wrapper" style="margin-top: 1rem;">
+          <button class="copy-btn" aria-label="Copy code" onclick="copyCode(this)" title="Copy to clipboard">
+            <svg class="copy-icon" viewBox="0 0 24 24">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <svg class="check-icon" viewBox="0 0 24 24" style="display: none; stroke: var(--check);">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </button>
+          <div class="install-box"><code><span class="comment">// src/main.rs</span>
+<span class="kw">use</span> quickjs::runtime::Runtime;
+
+<span class="kw">fn</span> main() -&gt; <span class="kw">Result</span>&lt;(), Box&lt;<span class="kw">dyn</span> std::error::Error&gt;&gt; {
+    <span class="kw">let mut</span> rt = Runtime::new();
+    <span class="kw">let</span> value = rt.eval(<span class="cmd">"40 + 2"</span>)?;
+    <span class="kw">println!</span>(<span class="cmd">"{value}"</span>);
+    <span class="kw">Ok</span>(())
+}</code></div>
+        </div>
+        <p class="install-note">
+          The exact API surface varies per port &mdash; see each crate's README and rustdoc for the entry points.
+        </p>
+      </section>
+
+      <section style="margin-top: 5rem; text-align: center;">
+        <h2 style="margin-bottom: 1rem;">Available ports</h2>
+        <p>pandoc, biber, quickjs, clang (from LLVM), ecj (Eclipse JDT), plus the supporting Haskell library chain pandoc depends on.</p>
+        <p><a href="packages.html">See the catalog with status &rarr;</a></p>
+      </section>
+
+      <section style="margin-top: 5rem;">
+        <h2 style="text-align: center; margin-bottom: 2rem;">How it works</h2>
+        <p>
+          Each port lives in its own repo under <a href="https://github.com/rustports">github.com/rustports</a>, with the upstream source vendored as a git submodule pinned to a specific tag. The Rust code mirrors the upstream structure &mdash; function for function, branch for branch &mdash; so a future upstream change is a mechanical translation rather than a redesign.
+        </p>
+        <p>
+          A differential test harness compares the port's output to the upstream's, byte for byte, on the upstream's own test corpus. A port doesn't ship until its harness reports green on the cases it claims to cover; status numbers on the <a href="packages.html">packages page</a> come from that harness.
+        </p>
+        <p>
+          For the longer story &mdash; why faithful structure matters more than passing tests, when to mirror and when to adapt &mdash; see <a href="why.html">What's a faithful port?</a> or read the full <a href="https://github.com/rustports/docs/blob/main/methodology.md">methodology</a>.
+        </p>
+      </section>
+
+      <footer>
+        <p>
+          Each ported crate keeps its upstream license &mdash; see the <a href="packages.html">packages page</a>. The shared methodology in <a href="https://github.com/rustports/docs">rustports/docs</a> is MIT-licensed.
+        </p>
+      </footer>
+    </div>
+
+    <script>
+      function copyCode(btn) {
+        const codeElement = btn.parentElement.querySelector('code');
+        const textToCopy = codeElement.innerText;
+
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          const copyIcon = btn.querySelector('.copy-icon');
+          const checkIcon = btn.querySelector('.check-icon');
+
+          copyIcon.style.display = 'none';
+          checkIcon.style.display = 'block';
+
+          setTimeout(() => {
+            copyIcon.style.display = 'block';
+            checkIcon.style.display = 'none';
+          }, 2000);
+        }).catch(err => {
+          console.error('Failed to copy text: ', err);
+        });
+      }
+    </script>
+  </body>
+</html>

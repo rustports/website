@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rustports — available ports</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="subpage">
+    <div class="container">
+      <header>
+        <h1><a href="index.html"><img src="rustports-logo.svg" alt="rustports" class="logo"></a></h1>
+        <nav class="topnav">
+          <a href="packages.html" aria-current="page">Packages</a>
+          <a href="why.html">What's a faithful port?</a>
+          <a href="https://github.com/rustports/docs">Methodology</a>
+          <a href="https://github.com/rustports">GitHub</a>
+        </nav>
+      </header>
+
+      <section>
+        <h2>Programs</h2>
+        <p style="color: var(--tagline);">
+          End-user tools, each shipped as both a CLI binary and a library crate.
+        </p>
+        <table class="pkg-table">
+          <thead>
+            <tr>
+              <th>Port</th>
+              <th>Upstream</th>
+              <th class="lang">Source</th>
+              <th class="upstream-ver">Pinned</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="https://github.com/rustports/biber">biber</a></td>
+              <td>biblatex bibliography processor</td>
+              <td class="lang">Perl</td>
+              <td class="upstream-ver">v2.21</td>
+              <td class="status"><span class="pct">190/190</span> differential cases &middot; 313/313 unit tests &middot; v0.1.0 released</td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/rustports/quickjs">quickjs</a></td>
+              <td>small JavaScript engine (Fabrice Bellard)</td>
+              <td class="lang">C</td>
+              <td class="upstream-ver">submodule</td>
+              <td class="status"><span class="pct">~71%</span> on the test262 conformance suite (32,139 / 45,273)</td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/rustports/pandoc">pandoc</a></td>
+              <td>universal document converter</td>
+              <td class="lang">Haskell</td>
+              <td class="upstream-ver">3.9.0.2</td>
+              <td class="status">In progress &mdash; Markdown reader and LaTeX/Beamer writer landing as milestones</td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/rustports/ecj">ecj</a></td>
+              <td>Eclipse JDT Java compiler frontend</td>
+              <td class="lang">Java</td>
+              <td class="upstream-ver">S4_40_0_M2</td>
+              <td class="status">Phase 1 complete (Scanner); Parser and Resolver in progress</td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/rustports/llvm">llvm</a></td>
+              <td>Clang frontend (from the LLVM monorepo)</td>
+              <td class="lang">C++</td>
+              <td class="upstream-ver">submodule</td>
+              <td class="status">Phases 1&ndash;3 complete (Lexer); Parser and Sema in progress</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section style="margin-top: 4rem;">
+        <h2>Libraries</h2>
+        <p style="color: var(--tagline);">
+          Sibling crates that the programs above depend on. Most exist to support <a href="https://github.com/rustports/pandoc">pandoc</a>'s Haskell ecosystem.
+        </p>
+        <table class="pkg-table">
+          <thead>
+            <tr>
+              <th>Port</th>
+              <th>Upstream</th>
+              <th class="lang">Source</th>
+              <th>Used by</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="https://github.com/rustports/hs-pandoc-types">hs-pandoc-types</a></td>
+              <td>pandoc's AST types</td>
+              <td class="lang">Haskell</td>
+              <td><a href="https://github.com/rustports/pandoc">pandoc</a></td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/rustports/hs-blaze-html">hs-blaze-html</a></td>
+              <td>HTML combinator library</td>
+              <td class="lang">Haskell</td>
+              <td><a href="https://github.com/rustports/pandoc">pandoc</a></td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/rustports/hs-blaze-markup">hs-blaze-markup</a></td>
+              <td>Markup combinator base for blaze-html</td>
+              <td class="lang">Haskell</td>
+              <td><a href="https://github.com/rustports/hs-blaze-html">hs-blaze-html</a></td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/rustports/hs-citeproc">hs-citeproc</a></td>
+              <td>Citation Style Language processor</td>
+              <td class="lang">Haskell</td>
+              <td><a href="https://github.com/rustports/pandoc">pandoc</a></td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/rustports/hs-doclayout">hs-doclayout</a></td>
+              <td>Pretty-printing for structured documents</td>
+              <td class="lang">Haskell</td>
+              <td><a href="https://github.com/rustports/pandoc">pandoc</a></td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/rustports/hs-doctemplates">hs-doctemplates</a></td>
+              <td>String templates for pandoc</td>
+              <td class="lang">Haskell</td>
+              <td><a href="https://github.com/rustports/pandoc">pandoc</a></td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/rustports/hs-emojis">hs-emojis</a></td>
+              <td>Emoji lookup tables</td>
+              <td class="lang">Haskell</td>
+              <td><a href="https://github.com/rustports/pandoc">pandoc</a></td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/rustports/hs-gridtables">hs-gridtables</a></td>
+              <td>Grid-style table parser</td>
+              <td class="lang">Haskell</td>
+              <td><a href="https://github.com/rustports/pandoc">pandoc</a></td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/rustports/hs-skylighting">hs-skylighting</a></td>
+              <td>Syntax highlighting library</td>
+              <td class="lang">Haskell</td>
+              <td><a href="https://github.com/rustports/pandoc">pandoc</a></td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/rustports/hs-skylighting-core">hs-skylighting-core</a></td>
+              <td>Core types and parser for skylighting</td>
+              <td class="lang">Haskell</td>
+              <td><a href="https://github.com/rustports/hs-skylighting">hs-skylighting</a></td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/rustports/hs-tagsoup">hs-tagsoup</a></td>
+              <td>Lazy HTML/XML parser</td>
+              <td class="lang">Haskell</td>
+              <td><a href="https://github.com/rustports/pandoc">pandoc</a></td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/rustports/hs-texmath">hs-texmath</a></td>
+              <td>TeX math &harr; MathML / OMML conversion</td>
+              <td class="lang">Haskell</td>
+              <td><a href="https://github.com/rustports/pandoc">pandoc</a></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="pkg-note">
+          Library port names keep the <code>&lt;srclang&gt;-</code> prefix (<code>hs-</code> for Haskell) so that future ports of homonymous libraries from other ecosystems can coexist. Program names stay bare. See the <a href="https://github.com/rustports/docs/blob/main/methodology.md#3-phase-0--pre-port-analysis">naming convention</a> for details.
+        </p>
+      </section>
+
+      <footer>
+        <p>
+          Each port keeps its upstream license &mdash; click through to the repo to see which. Status snapshots are updated as ports advance; for the live numbers, run the harness in the respective repo.
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>

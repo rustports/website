@@ -1,0 +1,9 @@
+name = "rustports"
+compatibility_date = "2025-01-01"
+
+routes = [
+  { pattern = "rustports.org", custom_domain = true }
+]
+
+[assets]
+directory = "./"

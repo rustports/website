@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rustports — what's a faithful port?</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="subpage">
+    <div class="container">
+      <header>
+        <h1><a href="index.html"><img src="rustports-logo.svg" alt="rustports" class="logo"></a></h1>
+        <nav class="topnav">
+          <a href="packages.html">Packages</a>
+          <a href="why.html" aria-current="page">What's a faithful port?</a>
+          <a href="https://github.com/rustports/docs">Methodology</a>
+          <a href="https://github.com/rustports">GitHub</a>
+        </nav>
+      </header>
+
+      <section>
+        <h2>What "faithful" means</h2>
+        <p>
+          A <em>faithful port</em> mirrors the upstream's structure. Same function names, same enum variants in the same order, same <code>match</code>/<code>switch</code> arms in the same order, same error message strings. The Rust file and the upstream file can be opened side by side and verified line by line.
+        </p>
+
+        <div class="sxs">
+          <div>
+            <div class="label">Upstream (C)</div>
+            <div class="install-box"><code><span class="kw">switch</span> (op-&gt;kind) {
+  <span class="kw">case</span> OP_ADD: <span class="kw">return</span> add(a, b);
+  <span class="kw">case</span> OP_SUB: <span class="kw">return</span> sub(a, b);
+  <span class="kw">case</span> OP_MUL: <span class="kw">return</span> mul(a, b);
+  <span class="kw">default</span>:     <span class="kw">return</span> err(<span class="cmd">"bad op"</span>);
+}</code></div>
+          </div>
+          <div>
+            <div class="label">Port (Rust)</div>
+            <div class="install-box"><code><span class="kw">match</span> op.kind {
+  Op::Add =&gt; add(a, b),
+  Op::Sub =&gt; sub(a, b),
+  Op::Mul =&gt; mul(a, b),
+  _       =&gt; <span class="kw">Err</span>(<span class="cmd">"bad op"</span>.into()),
+}</code></div>
+          </div>
+        </div>
+
+        <p>
+          That's mundane on this example, and that's the point: nothing fancy, no extracted helper, no consolidated branches. The same shape end to end.
+        </p>
+      </section>
+
+      <section style="margin-top: 3rem;">
+        <h2>Why structural fidelity matters</h2>
+        <p>
+          Behavior can be the same for the wrong reasons &mdash; a bug that cancels another bug, a "cleaner" rewrite that happens to pass the tests you wrote and breaks on the ones you didn't. When the port's structure matches the upstream's, you can verify equivalence locally, function by function. That cross-check catches drift that no unit test would notice.
+        </p>
+        <p>
+          The other payoff is upstream tracking. The upstream keeps moving &mdash; bug fixes, security patches, new features. When the port mirrors the upstream's layout, a future change is a localised translation: open the upstream diff, find the matching block in the port, translate it. The port doesn't gradually become an abandoned fork.
+        </p>
+      </section>
+
+      <section style="margin-top: 3rem;">
+        <h2>What rustports is not</h2>
+        <p>
+          rustports isn't:
+        </p>
+        <ul>
+          <li>A <strong>rewrite</strong> &mdash; "inspired by pandoc, but our way." Those need a different playbook (requirements-first, not code-first).</li>
+          <li>An <strong>FFI wrapper</strong> &mdash; wrapping the C upstream via <code>bindgen</code> is a well-trodden path with its own tooling and doesn't need this workflow.</li>
+          <li>A <strong>performance project</strong> &mdash; the port matches the upstream's structure first; idiomatic Rust optimisations come later, on top, only where they don't break structural fidelity. A port may end up slower than its upstream on some inputs. The win is memory safety, library-grade integration, and the upstream's full feature set.</li>
+        </ul>
+      </section>
+
+      <section style="margin-top: 3rem;">
+        <h2>The shape of the workflow</h2>
+        <p>
+          Every port follows the same three-step workflow per slice of code:
+        </p>
+        <ol>
+          <li><strong>Skeleton</strong> &mdash; types and function signatures with <code>todo!()</code> bodies. <code>cargo check</code> green. The structural mirror exists before any body is written.</li>
+          <li><strong>Fill</strong> &mdash; <code>todo!()</code> bodies become faithful translations of the upstream, one function at a time. No refactoring; no "clean up while we're here."</li>
+          <li><strong>Debug</strong> &mdash; plug the module into the runtime, run the differential test harness, fix the diffs. The harness is always the oracle.</li>
+        </ol>
+        <p>
+          The full methodology &mdash; phase planning, idiom maps per source language, deferral discipline, the catalogue of anti-patterns &mdash; lives in <a href="https://github.com/rustports/docs/blob/main/methodology.md">rustports/docs/methodology.md</a>. It applies regardless of the upstream's language: every current port (Haskell, Perl, C, C++, Java) uses the same playbook.
+        </p>
+      </section>
+
+      <section style="margin-top: 3rem;">
+        <h2>When to reach for rustports</h2>
+        <div class="callout">
+          <p>
+            Use a rustports crate when you need the tool's <em>full</em> behaviour from inside a Rust program, and want it without a subprocess fence or an FFI build dependency.
+          </p>
+          <p>
+            If you only need a sliver of behaviour, a small purpose-built crate may serve you better. If you need to ship and you're fine with <code>Command::new(...)</code>, shipping the upstream binary is fine too. rustports earns its weight when the upstream's full feature set, in-process, is what you actually want.
+          </p>
+        </div>
+      </section>
+
+      <footer>
+        <p>
+          <a href="index.html">&larr; Back to home</a>
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
